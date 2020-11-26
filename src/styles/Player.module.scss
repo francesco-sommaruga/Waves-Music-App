@@ -1,3 +1,5 @@
+@import './variables';
+
 .player {
     min-height: 20vh;
     display: flex;
@@ -11,21 +13,21 @@
     display: flex;
     input {
         width: 100%;
-        padding: 1rem;
+        padding: 1rem 0;
         cursor: pointer;
     }
-    p{
+    p {
         padding: 1rem;
     }
 }
 
-.playControl{
+.playControl {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
     width: 30%;
-    svg{
+    svg {
         cursor: pointer;
     }
 }
