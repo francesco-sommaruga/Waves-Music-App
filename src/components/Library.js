@@ -1,13 +1,25 @@
-import Styles from '../styles/Library.module.scss';
+import { library, librarySongs, open } from '../styles/Library.module.scss';
 import LibrarySong from './LibrarySong';
 
-const Library = ({ songs, setCurrentSong }) => {
+const Library = ({
+    songs,
+    setCurrentSong,
+    setIsPlaying,
+    currentSong,
+    isLibraryOpen
+}) => {
     return (
-        <div className={Styles.library}>
+        <div className={`${library} ${isLibraryOpen ? open : ''}`}>
             <h2>Library</h2>
-            <div className={Styles.librarySongs}>
+            <div className={librarySongs}>
                 {songs.map(song => (
-                    <LibrarySong song={song} setCurrentSong={setCurrentSong} songs={songs} key={song.id} />
+                    <LibrarySong
+                        song={song}
+                        setCurrentSong={setCurrentSong}
+                        setIsPlaying={setIsPlaying}
+                        currentSong={currentSong}
+                        key={song.id}
+                    />
                 ))}
             </div>
         </div>

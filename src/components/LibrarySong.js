@@ -1,11 +1,21 @@
-import { container, songDescription } from '../styles/LibrarySong.module.scss';
+import {
+    container,
+    songDescription,
+    selected
+} from '../styles/LibrarySong.module.scss';
 
-const LibrarySong = ({ song, songs, setCurrentSong }) => {
+const LibrarySong = ({ song, currentSong, setCurrentSong, setIsPlaying }) => {
     const handleSelectSong = () => {
         setCurrentSong(song);
+        setIsPlaying(false);
     };
     return (
-        <div className={container} onClick={handleSelectSong}>
+        <div
+            className={`${container} ${
+                song.id === currentSong.id ? selected : ''
+            }`}
+            onClick={handleSelectSong}
+        >
             <img src={song.cover} alt={song.name} />
             <div className={songDescription}>
                 <h3>{song.name}</h3>
