@@ -10,3 +10,4 @@
 ### What I've changed:
 
 - Used component level styling with Scss modules instead of a single App file
+- Added audio controls for desktop version
