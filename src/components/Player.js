@@ -1,11 +1,14 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useWindowSize } from '../hooks/useWindowSize';
 import Styles from '../styles/Player.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faPlay,
     faPause,
     faAngleLeft,
-    faAngleRight
+    faAngleRight,
+    faVolumeUp,
+    faVolumeMute
 } from '@fortawesome/free-solid-svg-icons';
 
 const Player = ({
@@ -75,6 +78,22 @@ const Player = ({
         (await isPlaying) ? audioRef.current.play() : audioRef.current.pause();
     };
 
+    const [volume, setVolume] = useState(1);
+    const [isMuted, setIsMuted] = useState(false);
+    const [volumeControlsActive, setVolumeControlsActive] = useState(false);
+    const handleVolumeChange = ({ target }) => {
+        if (target.value <= 0.01) setIsMuted(true);
+        if (target.value > 0.01) setIsMuted(false);
+        setVolume(target.value);
+    };
+    const handleVolumeClick = () => {
+        setIsMuted(!isMuted);
+    };
+    useEffect(() => {
+        audioRef.current.volume = isMuted ? 0 : volume;
+    }, [volume, isMuted]);
+    const [width] = useWindowSize();
+
     return (
         <div className={Styles.player}>
             <div className={Styles.timeControl}>
@@ -93,6 +112,38 @@ const Player = ({
                     ></div>
                 </div>
                 <p>{getTime(songInfo.endTime)}</p>
+                {width > 768 ? (
+                    <div className={Styles.volumeControls}>
+                        <FontAwesomeIcon
+                            className={Styles.volume}
+                            onClick={handleVolumeClick}
+                            onMouseEnter={() => setVolumeControlsActive(true)}
+                            size="2x"
+                            icon={!isMuted ? faVolumeUp : faVolumeMute}
+                            style={
+                                volumeControlsActive ? { color: '#fff' } : null
+                            }
+                        />
+                        {volumeControlsActive ? (
+                            <div
+                                className={Styles.volumeSlider}
+                                onMouseLeave={() =>
+                                    setVolumeControlsActive(false)
+                                }
+                                style={{ background: currentSong.color[1] }}
+                            >
+                                <input
+                                    value={isMuted ? 0 : volume}
+                                    onChange={handleVolumeChange}
+                                    min={0}
+                                    max={1}
+                                    step={0.01}
+                                    type="range"
+                                />
+                            </div>
+                        ) : null}
+                    </div>
+                ) : null}
             </div>
             <div className={Styles.playControl}>
                 <FontAwesomeIcon
@@ -102,7 +153,7 @@ const Player = ({
                     onClick={() => skipSongHandler(-1)}
                 />
                 <FontAwesomeIcon
-                    className={Styles.play}
+                    className={Styles.playPause}
                     size="2x"
                     icon={isPlaying ? faPause : faPlay}
                     onClick={handlePlay}
