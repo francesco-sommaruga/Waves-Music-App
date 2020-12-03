@@ -86,6 +86,9 @@
 
 .volumeControls {
     position: relative;
+    .iconWrapper {
+        width: 36px;
+    }
     .volume {
         position: relative;
         transition: transform 0.3s ease;

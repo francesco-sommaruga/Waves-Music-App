@@ -114,16 +114,22 @@ const Player = ({
                 <p>{getTime(songInfo.endTime)}</p>
                 {width > 768 ? (
                     <div className={Styles.volumeControls}>
-                        <FontAwesomeIcon
-                            className={Styles.volume}
-                            onClick={handleVolumeClick}
-                            onMouseEnter={() => setVolumeControlsActive(true)}
-                            size="2x"
-                            icon={!isMuted ? faVolumeUp : faVolumeMute}
-                            style={
-                                volumeControlsActive ? { color: '#fff' } : null
-                            }
-                        />
+                        <div className={Styles.iconWrapper}>
+                            <FontAwesomeIcon
+                                className={Styles.volume}
+                                onClick={handleVolumeClick}
+                                onMouseEnter={() =>
+                                    setVolumeControlsActive(true)
+                                }
+                                size="2x"
+                                icon={!isMuted ? faVolumeUp : faVolumeMute}
+                                style={
+                                    volumeControlsActive
+                                        ? { color: '#fff' }
+                                        : null
+                                }
+                            />
+                        </div>
                         {volumeControlsActive ? (
                             <div
                                 className={Styles.volumeSlider}
